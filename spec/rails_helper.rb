@@ -27,6 +27,9 @@ require 'database_cleaner'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+
+config.include FactoryGirl::Syntax::Methods
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -65,6 +68,15 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
+
   end
+
+  Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a test framework:
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
 
 end
