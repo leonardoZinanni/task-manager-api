@@ -14,8 +14,8 @@ RSpec.describe 'Users API', type: :request do
 
     context 'when the user exists' do
       it 'returns the user' do
-       user_response = JSON.parse(response.body)
-       expect(user_response["id"]).to eq(user_id)
+       user_response = JSON.parse(response.body,symbolize_names: true)
+       expect(user_response[:id]).to eq(user_id)
       end
 
        it 'returns sttus 200' do
@@ -46,8 +46,8 @@ end
      end
 
      it 'returns json for the created'do
-      user_response = JSON.parse(response.body)
-      expect(user_response['email']).to eq(user_params[:email])
+      user_response = JSON.parse(response.body, symbolize_names: true)
+      expect(user_response[:email]).to eq(user_params[:email])
      end
      end
    context 'Quando os parametros não são validos' do
@@ -58,8 +58,8 @@ end
     end
 
      it 'retornar um json com erro ' do
-     user_response = JSON.parse(response.body)
-     expect(user_response).to have_key('errors')
+     user_response = JSON.parse(response.body,symbolize_names: true)
+     expect(user_response).to have_key(:errors)
     end
    end
 end
