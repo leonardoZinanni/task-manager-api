@@ -64,39 +64,38 @@ end
    end
 end
 
-  describe 'PUT /useres/:id'do
-   before do  
-     headers ={'Accept' => 'application/vnd.taskmanager.v1 '}
-     put "/users/#{user_id}", params: {user:user_params}, headers: headers
-   end
-
-  context 'when the request params are valid' do
-     let(:user_params){{email: 'new@email.com'}}
-
-     it 'returns statsu 200' do
-       expect(response).to have_http_status(200)
-       end   
- 
-  it 'Uptade complete' do
-      user_response = JSON.parse(response.body, symbolize_names: true)
-      expect(user_response[:email]).to eq(user_params[:email])
-  end
-end
-
-#teste com informações invalidas 
-context 'when the request params are invalid' do
-     let(:user_params){{email: 'Invalid@'}}
-
-       it 'returns statsu 422' do
-         expect(response).to have_http_status(422)
-       end   
- 
-  it 'retornar um json com erro ' do
-     user_response = JSON.parse(response.body, symbolize_names: true)
-     expect(user_response).to have_key(:errors)
+describe 'PUT /users/:id' do
+    before do
+      headers = { "Accept" => "application/vnd.taskmanager.v1" }
+      put "/users/#{user_id}", params: { user: user_params }, headers: headers
     end
-   end
- end
+
+    context 'when the request params are valid' do
+      let(:user_params) { { email: 'new@email.com' } }
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns the json data for the updated user' do
+        user_response = JSON.parse(response.body)
+        expect(user_response['email']).to eq('new@email.com')
+      end
+    end
+
+    context 'when the request params are invalid' do
+      let(:user_params) { { email: 'invalid.email@' } }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns json data for the errors' do
+        user_response = JSON.parse(response.body)
+        expect(user_response).to have_key('errors')
+      end
+    end
+  end
 
  
 end
