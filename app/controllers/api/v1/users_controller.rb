@@ -18,7 +18,22 @@ respond_to :json
       render json: {errors: user.errors}, status: 422
     end 
   end
+
+
+ #Metodos que atualiza usuario apartir do id e dos parametos passadps 
+  def update
+    user = User.find(params[:id])
+
+    if user.update(user_params)
+      render json: user, status: 200
+    else 
+      render json: {errors: user.errors}, status: 422
+    end
+  end 
    
+
+
+
   private
 
   def user_params
