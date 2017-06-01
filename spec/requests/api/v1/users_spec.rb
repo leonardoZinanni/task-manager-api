@@ -78,8 +78,8 @@ describe 'PUT /users/:id' do
       end
 
       it 'returns the json data for the updated user' do
-        user_response = JSON.parse(response.body)
-        expect(user_response['email']).to eq('new@email.com')
+        user_response = JSON.parse(response.body, symbolize_names: true)
+        expect(user_response[:email]).to eq(user_params[:email])
       end
     end
 
@@ -111,6 +111,8 @@ describe 'PUT /users/:id' do
       expect( User.find_by(id: user_id) ).to be_nil
     end
   end
+
+
 end
 
 
